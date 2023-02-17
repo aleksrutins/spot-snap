@@ -1,0 +1,61 @@
+name: spot
+version: '0.3.2'
+summary: Listen to music on Spotify
+description: |
+  Listen to music on Spotify.
+
+  Current features:
+
+  - playback control (play/pause, prev/next, seeking)
+  - play queue with shuffle option
+  - selection mode: easily browse and select mutliple tracks to queue them
+  - browse your saved albums and playlists
+  - search albums and artists
+  - view an artist's releases
+  - view users' playlists
+  - credentials management with Secret Service
+  - MPRIS integration
+confinement: strict
+base: core22
+parts:
+  spot:
+    source: https://github.com/xou816/spot.git
+    source-tag: '0.3.2'
+    source-type: git
+    plugin: meson
+    meson-parameters:
+      - --prefix=/usr
+      - -Dbuildtype=release
+      - -Doffline=false
+    parse-info: [usr/share/metainfo/dev.alextren.Spot.appdata.xml]
+    build-packages:
+      - pkg-config
+      - libasound2-dev
+      - libssl-dev
+      - libpulse-dev
+    build-snaps:
+      - rustup
+    stage-packages:
+      - libasound2
+      - libssl3
+      - libpulse0
+    override-build: |
+      rustup default stable
+      craftctl default
+
+apps:
+  spot:
+    extensions: [gnome]
+    command: usr/bin/spot
+    desktop: usr/share/applications/dev.alextren.Spot.desktop
+    common-id: dev.alextren.Spot.desktop
+    plugs: [network, mpris, alsa, audio-playback, wayland, x11, desktop, desktop-legacy, password-manager-service, opengl]
+
+slots:
+  spot:
+    interface: dbus
+    bus: session
+    name: dev.alextren.Spot
+  spot-mpris:
+    interface: mpris
+    name: Spot
