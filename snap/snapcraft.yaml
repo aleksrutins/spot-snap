@@ -1,5 +1,5 @@
 name: spot-client
-version: '0.3.2'
+version: '0.4.0'
 summary: Listen to music on Spotify
 description: |
   Listen to music on Spotify.
@@ -20,7 +20,7 @@ base: core22
 parts:
   spot:
     source: https://github.com/xou816/spot.git
-    source-tag: '0.3.2'
+    source-tag: '0.4.0'
     source-type: git
     plugin: meson
     meson-parameters:
@@ -49,7 +49,7 @@ apps:
     command: usr/bin/spot
     desktop: usr/share/applications/dev.alextren.Spot.desktop
     common-id: dev.alextren.Spot.desktop
-    plugs: [network, mpris, alsa, audio-playback, wayland, x11, desktop, desktop-legacy, password-manager-service, opengl]
+    plugs: [network, mpris, alsa, audio-playback, wayland, x11, desktop, desktop-legacy, password-manager-service, opengl, gsettings]
 
 slots:
   spot:
