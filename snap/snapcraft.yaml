@@ -24,24 +24,17 @@ parts:
     source-type: git
     plugin: meson
     meson-parameters:
-      - --prefix=/usr
+      - --prefix=/snap/spot-client/current/usr
       - -Dbuildtype=release
       - -Doffline=false
     parse-info: [usr/share/metainfo/dev.alextren.Spot.appdata.xml]
-    build-packages:
-      - pkg-config
-      - libasound2-dev
-      - libssl-dev
-      - libpulse-dev
     build-snaps:
       - rustup
-    stage-packages:
-      - libasound2
-      - libssl3
-      - libpulse0
     override-build: |
       rustup default stable
       craftctl default
+    organize:
+      snap/spot-client/current: .
 
 apps:
   spot:
