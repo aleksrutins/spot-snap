@@ -2,6 +2,11 @@ name: spot-client
 version: '0.4.0'
 summary: Listen to music on Spotify
 description: |
+  This is an unofficial Snap repackaging of the Spot client for Spotify.
+
+  In order to save your password, the `password-manager-service` plug needs to be manually connected:
+     $ snap connect spot-client:password-manager-service
+
   Listen to music on Spotify.
 
   Current features:
@@ -30,9 +35,15 @@ parts:
     parse-info: [usr/share/metainfo/dev.alextren.Spot.appdata.xml]
     build-snaps:
       - rustup
+    override-pull: |
+      craftctl default
+
+      sed -i.bak -e 's|Icon=dev.alextren.Spot|Icon=/usr/share/icons/hicolor/scalable/apps/dev.alextren.Spot.svg|g' data/dev.alextren.Spot.desktop
     override-build: |
       rustup default stable
       craftctl default
+    prime:
+      - -snap/spot-client
     organize:
       snap/spot-client/current: .
 
